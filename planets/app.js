@@ -64,7 +64,7 @@ while (!atLeastOneNote) {
     if (playLeft) {
       syn1.noteOff(nextNote1);
       nextNote1 = scale[Math.floor(Math.random() * (scale.length - 1))].fq();
-      syn1.noteOn(nextNote1, Math.random());
+      syn1.noteOn(nextNote1, 0.125 + Math.random());
       atLeastOneNote = true;
     }
 
@@ -79,7 +79,7 @@ while (!atLeastOneNote) {
       if (Math.random() < density) {
         syn2.noteOff(nextNote2);
         nextNote2 = scale[Math.floor(Math.random() * (scale.length - 1))].fq();
-        syn2.noteOn(nextNote2, 0.5 + Math.random() * 0.5);
+        syn2.noteOn(nextNote2, 0.125 + Math.random() * 0.5);
         atLeastOneNote = true;
       }
     }
@@ -95,7 +95,7 @@ core.on('load', function(e) {
     let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t));
     let gain = el.seq({key: `${key}:vs`, seq: vs, hold: true}, t);
 
-    return el.mul(env, el.sm(gain), el.cycle(el.seq({key: `${key}:fs`, seq: fs, hold: true}, t)));
+    return el.mul(env, el.sm(gain), el.cycle(el.smooth(el.tau2pole(0.01), el.seq({key: `${key}:fs`, seq: fs, hold: true}, t))));
   }));
 
   let rr = el.add(...syn2.render(function(key, gs, fs, vs, i) {
@@ -103,7 +103,7 @@ core.on('load', function(e) {
     let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t));
     let gain = el.seq({key: `${key}:vs`, seq: vs, hold: true}, t);
 
-    return el.mul(env, el.sm(gain), el.cycle(el.seq({key: `${key}:fs`, seq: fs, hold: true}, t)));
+    return el.mul(env, el.sm(gain), el.cycle(el.smooth(el.tau2pole(0.01), el.seq({key: `${key}:fs`, seq: fs, hold: true}, t))));
   }));
 
   let xl = el.mul(0.2, el.scope({channels: 2}, ll, rr));

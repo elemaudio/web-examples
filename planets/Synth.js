@@ -10,7 +10,7 @@ export default class Synth {
         key: `${key}:v:${i}`,
         gate: 0,
         freq: 440,
-        velo: 0,
+        gain: 0,
         data: {
           gateSeq: [],
           freqSeq: [],
@@ -26,7 +26,7 @@ export default class Synth {
     this.voices.forEach(function(v) {
       v.gate = 0;
       v.freq = 440;
-      v.velo = 0;
+      v.gain = 1;
       v.data.gateSeq.length = 0;
       v.data.freqSeq.length = 0;
       v.data.veloSeq.length = 0;
@@ -39,14 +39,14 @@ export default class Synth {
     this.voices.forEach(function(voice, i) {
       voice.data.gateSeq.push(voice.gate);
       voice.data.freqSeq.push(voice.freq);
-      voice.data.veloSeq.push(voice.velo);
+      voice.data.veloSeq.push(voice.gain);
     })
   }
 
-  noteOn(freq, velo) {
+  noteOn(freq, gain) {
     this.voices[this.nextVoice].gate = 1.0;
     this.voices[this.nextVoice].freq = freq;
-    this.voices[this.nextVoice].velo = velo;
+    this.voices[this.nextVoice].gain = gain;
 
     if (++this.nextVoice >= this.voices.length) {
       this.nextVoice -= this.voices.length;
