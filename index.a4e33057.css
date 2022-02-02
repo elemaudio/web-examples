@@ -1,0 +1,22 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  background-color: #1E293B;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/*# sourceMappingURL=index.a4e33057.css.map */
