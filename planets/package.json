@@ -1,0 +1,19 @@
+{
+  "name": "planets",
+  "version": "1.0.0",
+  "description": "A generative, reactive Elementary Audio web example",
+  "scripts": {
+    "start": "parcel --no-cache index.html",
+    "build": "rm -r ./dist && parcel build --no-source-maps --no-cache --public-url . index.html"
+  },
+  "author": "Nick Thompson",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.0.1"
+  },
+  "dependencies": {
+    "@elemaudio/core": "0.11.0",
+    "@elemaudio/srvb": "^1.1.0",
+    "teoria": "^2.5.0"
+  }
+}
