@@ -4,15 +4,18 @@
   "description": "A generative, reactive Elementary Audio web example",
   "scripts": {
     "start": "parcel --no-cache index.html",
-    "build": "rm -r ./dist && parcel build --no-source-maps --no-cache --public-url . index.html"
+    "build": "rm -rf dist && parcel build --no-source-maps --no-cache --public-url . index.html",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Nick Thompson",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.0.1"
+    "gh-pages": "^3.2.3",
+    "parcel": "^2.2.1"
   },
   "dependencies": {
-    "@elemaudio/core": "0.11.0",
+    "@elemaudio/core": "^0.11.0",
     "@elemaudio/srvb": "^1.1.0",
     "teoria": "^2.5.0"
   }
