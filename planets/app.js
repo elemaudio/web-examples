@@ -12,7 +12,7 @@ const canvas = document.getElementById('canvas');
 const clone = canvas.cloneNode();
 const ctx = canvas.getContext('2d');
 const cloneCtx = clone.getContext('2d');
-const globalAlpha = 0.96 + (Math.random() * 0.05);
+const globalAlpha = 0.94 + (Math.random() * 0.05);
 
 let width = canvas.width = clone.width = window.innerWidth;
 let height = canvas.height = clone.height = window.innerHeight;

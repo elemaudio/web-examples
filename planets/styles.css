@@ -8,9 +8,34 @@ html, body {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   width: 100vw;
   height: 100vh;
+}
+
+.text {
+  z-index: 1;
+  color: #F1F5F9;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.text p {
+  margin: 0.5rem;
+}
+
+.link {
+  text-decoration: none;
+  color: #94A3B8;
+  margin: 0px 1rem;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #64748B;
 }
 
 .canvas {
