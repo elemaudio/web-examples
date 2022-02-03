@@ -18,7 +18,6 @@ let height = canvas.height = clone.height = window.innerHeight;
 
 // Must be set after the assignment to width/height, which resets the
 // state of the canvas contexts
-ctx.globalCompositeOperation = 'lighten';
 cloneCtx.globalAlpha = globalAlpha;
 
 // Our mutable app state
@@ -105,7 +104,6 @@ window.addEventListener('resize', function(e) {
   height = canvas.height = clone.height = window.innerHeight;
 
   // Setting width/height resets the canvas state, need to reapply these
-  ctx.globalCompositeOperation = 'lighten';
   cloneCtx.globalAlpha = globalAlpha;
 });
 
