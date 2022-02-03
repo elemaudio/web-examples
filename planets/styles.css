@@ -25,12 +25,12 @@ html, body {
 
 .text p {
   margin: 0.5rem;
+  text-align: center;
 }
 
 .link {
   text-decoration: none;
   color: #94A3B8;
-  margin: 0px 1rem;
 }
 
 .link:hover {

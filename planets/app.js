@@ -126,7 +126,7 @@ core.on('load', function(e) {
 //
 // We need this step because most browsers deny an AudioContext from starting
 // before some user-initiated interaction.
-document.addEventListener('click', async function start(e) {
+document.addEventListener('pointerdown', async function start(e) {
   if (audioContext.state !== 'running') {
     await audioContext.resume();
   }
@@ -148,7 +148,7 @@ document.addEventListener('click', async function start(e) {
   ctx.clearRect(0, 0, width, height);
   state.frameCount = 0;
 
-  document.removeEventListener('click', start);
+  document.removeEventListener('pointerdown', start);
 });
 
 // On resize, we need to scale our canvas size accordingly to preserve the
