@@ -1,8 +1,7 @@
 import {ElementaryWebAudioRenderer as core, el} from '@elemaudio/core';
 import srvb from '@elemaudio/srvb';
-import teoria from 'teoria';
 
-import Synth from './Synth';
+import genSynth from './genSynth';
 import {clear, draw} from './drawing';
 
 
@@ -31,65 +30,13 @@ const state = {
   ],
 };
 
-// Random seed stuff
-let baseNote = teoria.note.fromKey(25 + Math.round(Math.random() * 24));
-let accentNote = teoria.note.fromKey(baseNote.key() + 12);
-let scaleType = ['major', 'minor', 'lydian', 'mixolydian'][Math.round(Math.random() * 3)];
-let scale = accentNote.scale(scaleType).notes().concat(baseNote.scale(scaleType).notes());
-let density = 0.02 + Math.random() * 0.2;
-let similarity = Math.random();
-
-console.log(`${baseNote.toString()} ${scaleType} ${density.toFixed(3)}/${similarity.toFixed(3)} alpha:${globalAlpha.toFixed(3)}`);
-
-// Record a bunch of operations against our synth
-let syn1 = new Synth('ll', 4);
-let syn2 = new Synth('rr', 4);
-let adsrDecay = 3.5;
-let nextNote1 = 0;
-let nextNote2 = 0;
-let bpm = 76;
-let n64Rate = 1 / ((60 / bpm) / 8);
-
-// Eight bars of 16th notes
-let atLeastOneNote = false;
-
-while (!atLeastOneNote) {
-  syn1.reset();
-  syn2.reset();
-
-  for (let i = 0; i < 128; ++i) {
-    let playLeft = Math.random() < density;
-    let playSimilar = Math.random() < similarity;
-
-    if (playLeft) {
-      syn1.noteOff(nextNote1);
-      nextNote1 = scale[Math.floor(Math.random() * (scale.length - 1))].fq();
-      syn1.noteOn(nextNote1, 0.125 + Math.random());
-      atLeastOneNote = true;
-    }
-
-    // If we have high similarity, we duplicate the note event into the right
-    // channel synth. If we fail our similarity check, we optionally play whatever
-    // note we want in the right channel synth
-    if (playLeft && playSimilar) {
-      syn2.noteOff(nextNote2);
-      nextNote2 = nextNote1;
-      syn2.noteOn(nextNote2, Math.random());
-    } else {
-      if (Math.random() < density) {
-        syn2.noteOff(nextNote2);
-        nextNote2 = scale[Math.floor(Math.random() * (scale.length - 1))].fq();
-        syn2.noteOn(nextNote2, 0.125 + Math.random() * 0.5);
-        atLeastOneNote = true;
-      }
-    }
-
-    syn1.step();
-    syn2.step();
-  }
-}
-
+// Our main audio rendering step
 core.on('load', function(e) {
+  const bpm = 76;
+  const n64Rate = 1 / ((60 / bpm) / 8);
+  const adsrDecay = 3.5;
+  const [syn1, syn2] = genSynth();
+
   let ll = el.add(...syn1.render(function(key, gs, fs, vs, i) {
     let t = el.train(n64Rate);
     let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t));
