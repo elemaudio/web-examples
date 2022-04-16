@@ -1,4 +1,5 @@
-import {ElementaryWebAudioRenderer as core, el} from '@elemaudio/core';
+import WebRenderer from '@elemaudio/web-renderer';
+import {el} from '@elemaudio/core';
 import srvb from '@elemaudio/srvb';
 
 import genSynth from './genSynth';
@@ -7,6 +8,7 @@ import {clear, draw} from './drawing';
 
 // Constants
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const core = new WebRenderer();
 const canvas = document.getElementById('canvas');
 const clone = canvas.cloneNode();
 const ctx = canvas.getContext('2d');
@@ -38,18 +40,18 @@ core.on('load', function(e) {
 
   let ll = el.add(...syn1.render(function(key, gs, fs, vs, i) {
     let t = el.train(n64Rate);
-    let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t));
-    let gain = el.seq({key: `${key}:vs`, seq: vs, hold: true}, t);
+    let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t, 0));
+    let gain = el.seq({key: `${key}:vs`, seq: vs, hold: true}, t, 0);
 
-    return el.mul(env, el.sm(gain), el.cycle(el.smooth(el.tau2pole(0.01), el.seq({key: `${key}:fs`, seq: fs, hold: true}, t))));
+    return el.mul(env, el.sm(gain), el.cycle(el.smooth(el.tau2pole(0.01), el.seq({key: `${key}:fs`, seq: fs, hold: true}, t, 0))));
   }));
 
   let rr = el.add(...syn2.render(function(key, gs, fs, vs, i) {
     let t = el.train(n64Rate);
-    let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t));
-    let gain = el.seq({key: `${key}:vs`, seq: vs, hold: true}, t);
+    let env = el.adsr(0.01, adsrDecay, 0, adsrDecay, el.seq({key: `${key}:gs`, seq: gs, hold: true}, t, 0));
+    let gain = el.seq({key: `${key}:vs`, seq: vs, hold: true}, t, 0);
 
-    return el.mul(env, el.sm(gain), el.cycle(el.smooth(el.tau2pole(0.01), el.seq({key: `${key}:fs`, seq: fs, hold: true}, t))));
+    return el.mul(env, el.sm(gain), el.cycle(el.smooth(el.tau2pole(0.01), el.seq({key: `${key}:fs`, seq: fs, hold: true}, t, 0))));
   }));
 
   let xl = el.mul(0.2, el.scope({channels: 2}, ll, rr));
