@@ -57,12 +57,15 @@ core.on('load', function(e) {
   let xl = el.mul(0.2, el.scope({channels: 2}, ll, rr));
   let xr = el.mul(0.2, rr);
 
-  let [yl, yr] = srvb({name: 'verb'}, 0.5, 0.8, 0.5, xl, xr);
+  let [yl, yr] = srvb({
+    key: 'verb',
+    size: 0.5,
+    decay: 0.5,
+    mod: 0.5,
+    mix: 0.5,
+  }, xl, xr);
 
-  core.render(
-    el.add(xl, el.mul(0.5, yl)),
-    el.add(xr, el.mul(0.5, yr)),
-  );
+  core.render(yl, yr);
 
   core.on('scope', function(e) {
     state.channelData = e.data;
