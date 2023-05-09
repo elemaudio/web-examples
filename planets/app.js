@@ -1,6 +1,5 @@
 import WebRenderer from '@elemaudio/web-renderer';
 import {el} from '@elemaudio/core';
-import srvb from '@elemaudio/srvb';
 
 import genSynth from './genSynth';
 import {clear, draw} from './drawing';
@@ -57,15 +56,7 @@ core.on('load', function(e) {
   let xl = el.mul(0.2, el.scope({channels: 2}, ll, rr));
   let xr = el.mul(0.2, rr);
 
-  let [yl, yr] = srvb({
-    key: 'verb',
-    size: 0.5,
-    decay: 0.5,
-    mod: 0.5,
-    mix: 0.5,
-  }, xl, xr);
-
-  core.render(yl, yr);
+  core.render(xl, xr);
 
   core.on('scope', function(e) {
     state.channelData = e.data;
