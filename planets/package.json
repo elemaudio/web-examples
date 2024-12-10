@@ -15,8 +15,8 @@
     "parcel": "^2.2.1"
   },
   "dependencies": {
-    "@elemaudio/core": "^2.0.0",
-    "@elemaudio/web-renderer": "^2.0.0",
+    "@elemaudio/core": "^4.0.1",
+    "@elemaudio/web-renderer": "^4.0.1",
     "teoria": "^2.5.0"
   }
 }
